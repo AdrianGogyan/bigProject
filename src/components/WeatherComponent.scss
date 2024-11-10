@@ -1,9 +1,64 @@
-.WeatherComponent{
-    height: 100vh;
-    max-width: 20%;
-    background: #f1efefa2;
+$base-color: #312372;
+$dark-base-color: #261574;
+$light-base-color: #3e3274;
+$font-color: #aaaaaa;
 
+.WeatherComponent{
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    color: $font-color;
+    background: linear-gradient(75deg, $light-base-color, $base-color, $dark-base-color);
+}
+
+input, button{
+    color: $font-color;
+
+}
+
+.displayWeather{
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
+
+    &-navbar{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width:100%;
+        &-backButton{
+            padding: 0 1em;
+        }
+    }
+    
+    &-search{
+        width: 80%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1em;
+        &-input{
+            flex: 1;
+            background: none;
+            border: none;
+
+            &:focus-visible{
+                outline: none;
+                border-bottom: 1px solid $font-color;
+            }
+        }
+        &-submitButtom{
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+    }
+
+
+
 }

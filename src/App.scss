@@ -1,15 +1,9 @@
+$base-color: #c6538c;
+$light-base-color: rgba($base-color, 0.88);
+
 body{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background: #7a7a7a;
 }
 
-.App{
-    background: #f1efefa2;
-    height: 100vh;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}

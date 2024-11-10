@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FaAngleLeft, FaSearch  } from "react-icons/fa";
 import weatherIcon64px from '../assets/weatherIcon64px.png';
 import "./WeatherComponent.scss";
 
@@ -14,6 +15,7 @@ const WeatherComponent: React.FC = () => {
     useEffect(() => {
         const cities = JSON.parse(localStorage.getItem('cities') || '[]');
         setSavedCities(cities);
+        console.log(savedCities);
     }, []);
 
     function saveCityToLocalStorage(city: string) {
@@ -38,8 +40,17 @@ const WeatherComponent: React.FC = () => {
         setSubmitted(false);
     }
 
+    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>){
+        if(e.key === 'Enter'){
+            submitAction();
+        }
+    }
+
     async function submitAction() {
+        if(!city)
+            return(alert('Please enter a city name'))
         setSubmitted(true);
+        // console.log(submitted);
 
         try {
             const response = await fetch(
@@ -68,25 +79,39 @@ const WeatherComponent: React.FC = () => {
                     onClick={toogleWeatherAction}    
                 />
             ) : (
-                <div>
-                    {submitted ? (
-                        <p>Weather for: <span>{city}</span></p>
-                    ) : (
-                        <div>
+                <div className="displayWeather">
+                    <div className="displayWeather-navbar">
+                        <FaAngleLeft 
+                            className="displayWeather-navbar-backButton"
+                            onClick={toogleWeatherAction} />
+                        <h3>Weather</h3>
+
+                    </div>
+                    
+                    {!submitted &&
+                        (<div className="displayWeather-search">
                             <input
+                                className="displayWeather-search-input"
                                 type="text"
                                 placeholder="Type your city"
                                 value={city}
+                                onKeyDown={handleKeyDown}
                                 onChange={(e) => setCity(e.target.value)}
+                                
                             />
-                            <button onClick={submitAction}>Submit</button>
+                            <FaSearch
+                                onClick={submitAction}
+                            />
                         </div>
                     )}
+
                     {submitted && !weatherData && (
                         <div className="loading-div">Loading...</div>
                     )}
                     {submitted && weatherData && (
-                        <div className="weatherDetails">
+                        <div className="displayWeather-weatherDetails">
+                            <p>{city}</p>
+                        
                             <p className="weatherDetails-temperature">
                                 {weatherData.main.temp}°C
                             </p>
@@ -96,10 +121,11 @@ const WeatherComponent: React.FC = () => {
                             <p className="weatherDetails-wind">
                                 Wind: {weatherData.wind.speed} km/h
                             </p>
+                            <p onClick={resetComponent}>Search for another city</p>
                         </div>
                     )}
-                    <button onClick={toogleWeatherAction}>Back</button>
-                    <p onClick={resetComponent}>Search for another city</p>
+                    
+                    
                 </div>
             )}
         </div>
