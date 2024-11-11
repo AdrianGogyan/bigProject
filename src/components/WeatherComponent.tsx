@@ -85,6 +85,7 @@ const WeatherComponent: React.FC = () => {
                             className="displayWeather-navbar-backButton"
                             onClick={toogleWeatherAction} />
                         <h3>Weather</h3>
+                        {city ?? <p>{city}</p>}
 
                     </div>
                     
