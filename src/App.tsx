@@ -1,4 +1,4 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 import WeatherComponent from './components/WeatherComponent'
 import './App.scss'
 

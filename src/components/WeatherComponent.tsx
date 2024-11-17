@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaAngleLeft, FaSearch  } from "react-icons/fa";
 import weatherIcon64px from '../assets/weatherIcon64px.png';
 import "./WeatherComponent.scss";
+import { capitalize, roundNumber, toFixNumber } from "./inputHandler";
 
 const WeatherComponent: React.FC = () => {
     const [toogleWeatherComponents, setToggleWeatherComponent] = useState<boolean>(false);
@@ -46,6 +47,8 @@ const WeatherComponent: React.FC = () => {
         }
     }
 
+
+
     async function submitAction() {
         if(!city)
             return(alert('Please enter a city name'))
@@ -84,8 +87,7 @@ const WeatherComponent: React.FC = () => {
                         <FaAngleLeft 
                             className="displayWeather-navbar-backButton"
                             onClick={toogleWeatherAction} />
-                        <h3>Weather</h3>
-                        {city ?? <p>{city}</p>}
+                        {!city ? <h3>Weather</h3> : <h3>{capitalize(city)}</h3> }
 
                     </div>
                     
@@ -107,22 +109,30 @@ const WeatherComponent: React.FC = () => {
                     )}
 
                     {submitted && !weatherData && (
-                        <div className="loading-div">Loading...</div>
+                        <div className="loading-div">Loading...
+                            <div className="loading-div-cancelButton">
+                                Cancel
+                            </div>
+                        </div>
                     )}
                     {submitted && weatherData && (
                         <div className="displayWeather-weatherDetails">
-                            <p>{city}</p>
-                        
-                            <p className="weatherDetails-temperature">
-                                {weatherData.main.temp}°C
+                    
+                            <p className="displayWeather-weatherDetails-temperature">
+                                {roundNumber(weatherData.main.temp)}°
                             </p>
-                            <p className="weatherDetails-description">
-                                {weatherData.weather[0].description}
+                            <p className="displayWeather-weatherDetails-description">
+                                {capitalize(weatherData.weather[0].description)}
                             </p>
-                            <p className="weatherDetails-wind">
-                                Wind: {weatherData.wind.speed} km/h
+                            <p className="displayWeather-weatherDetails-wind">
+                                Wind: {toFixNumber(weatherData.wind.speed)} km/h
                             </p>
-                            <p onClick={resetComponent}>Search for another city</p>
+                            <p 
+                                className="displayWeather-weatherDetails-resetComponent"
+                                onClick={resetComponent}
+                                >
+                                    Search for another city 
+                            </p>
                         </div>
                     )}
                     
